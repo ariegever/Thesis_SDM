@@ -10,7 +10,10 @@ def extract_code(notebook_path):
             if cell.get('cell_type') == 'code':
                 source = ''.join(cell.get('source', []))
                 print(f"--- Cell {i} ---")
-                print(source)
+                try:
+                    print(source)
+                except UnicodeEncodeError:
+                    print(source.encode('utf-8', errors='ignore').decode('utf-8')) # Fallback
                 print("\n")
     except Exception as e:
         print(f"Error reading notebook: {e}")
